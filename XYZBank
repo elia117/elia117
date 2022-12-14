@@ -1,0 +1,113 @@
+import org.junit.Assert;
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import java.sql.Driver;
+import java.util.List;
+
+public class TestXYZBank {
+
+
+        @Test
+        public void sanityTest(){
+           String Url= "https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login";
+           String expected = "XYZ Bank" ;
+            DOMselenium selenium = new DOMselenium();
+            selenium.driver.get(Url);
+            Assert.assertEquals(expected,selenium.driver.getTitle());
+            selenium.driver.quit();
+
+        }
+        @Test
+        public void deposit250$() throws InterruptedException {
+            String Expected = "Account Number : 1004 , Balance : 250 , Currency : Dollar";
+            String Url = "https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login";
+            String CustomerLogin = "body > div > div > div.ng-scope > div > div.borderM.box.padT20 > div:nth-child(1) > button";
+            String NameSelector = "#userSelect";
+            String ChooseHarry = "#userSelect > option:nth-child(3)";
+            String LoginButton = "body > div > div > div.ng-scope > div > form > button";
+            String DepositSelector = "body > div > div > div.ng-scope > div > div:nth-child(5) > button:nth-child(2)";
+            String AmountInput = "body > div > div > div.ng-scope > div > div.container-fluid.mainBox.ng-scope > div > form > div > input";
+            String DepositAmount = "250";
+            String DepositInput = "body > div > div > div.ng-scope > div > div.container-fluid.mainBox.ng-scope > div > form > button";
+            DOMselenium selenium = new DOMselenium();
+            //all the html i need
+
+            selenium.driver.get(Url);
+            //open website
+            Thread.sleep(3000);
+            selenium.GetElement(CustomerLogin).click();
+            Thread.sleep(1000);
+            selenium.GetElement(NameSelector).click();
+            Thread.sleep(1500);
+            selenium.GetElement(ChooseHarry).click();
+            selenium.GetElement(LoginButton).click();
+            //login as exists user
+
+            Thread.sleep(1000);
+            selenium.GetElement(DepositSelector).click();
+            Thread.sleep(1000);
+            selenium.GetElement(AmountInput).sendKeys(DepositAmount);
+            selenium.GetElement(DepositInput).click();
+            //deposit complete
+            Thread.sleep(1000);
+            String ActualValue = selenium.GetElement("body > div > div > div.ng-scope > div > div:nth-child(3)").getText();
+            Assert.assertEquals(Expected,ActualValue);
+            selenium.driver.quit();
+        }
+
+
+
+    @Test
+            public void DeleteUser() throws InterruptedException {
+            DOMselenium selenium = new DOMselenium();
+            String Url = "https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login";
+            String BankMenLogin ="body > div > div > div.ng-scope > div > div.borderM.box.padT20 > div:nth-child(3) > button";
+            String CustomersList = "body > div > div > div.ng-scope > div > div.center > button:nth-child(3)";
+            String SearchCustomer = "body > div > div > div.ng-scope > div > div.ng-scope > div > form > div > div > input";
+            String Name = "Ron";
+            String DeleteButton = "body > div > div > div.ng-scope > div > div.ng-scope > div > div > table > tbody > tr > td:nth-child(5) > button";
+
+            selenium.driver.get(Url);
+            //Open Website
+        Thread.sleep(2000);
+        selenium.GetElement(BankMenLogin).click();
+
+        Thread.sleep(1000);
+        selenium.GetElement(CustomersList).click();
+        Thread.sleep(2000);
+        selenium.GetElement(SearchCustomer).sendKeys(Name);
+        Thread.sleep(1000);
+        selenium.GetElement(DeleteButton).click();
+        selenium.driver.navigate().back();
+        selenium.GetElement(CustomersList).click();
+        int RowCount = selenium.driver.findElements(By.xpath("/html/body/div/div/div[2]/div/div[2]/div/div/table/tbody/tr")).size();
+
+        int ColumnsCount = selenium.driver.findElements(By.xpath("/html/body/div/div/div[2]/div/div[2]/div/div/table/tbody/tr[1]/*")).size();
+
+        System.out.println("number of rows are:" + RowCount);
+        System.out.println("number of columns:" + ColumnsCount);
+        for (int i = 1; i <= RowCount; i++){
+            for (int j = 1; j <= ColumnsCount; j++){
+                System.out.println(selenium.driver.findElement(By.xpath(
+                        "//html/body/div/div/div[2]/div/div[2]/div/div/table/tbody/tr[" + i + "]/*[" + j + "]")).getText() + " ");
+
+            }
+            System.out.println();
+          }
+
+
+
+
+
+
+
+
+
+
+
+    }
+            }
+
+
